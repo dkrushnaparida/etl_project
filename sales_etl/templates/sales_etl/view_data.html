@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <h2 class="mb-4">Sales Data</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>OrderId</th>
+                <th>Region</th>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Item Price</th>
+                <th>Total Sales</th>
+                <th>Net Sale</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if page_obj %}
+            {% for item in page_obj %}
+                <tr>
+                    <td>{{ item.OrderId }}</td>
+                    <td>{{ item.region }}</td>
+                    <td>{{ item.OrderItemId }}</td>
+                    <td>{{ item.QuantityOrdered }}</td>
+                    <td>{{ item.ItemPrice }}</td>
+                    <td>{{ item.total_sales }}</td>
+                    <td>{{ item.net_sale }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="7" class="text-center text-danger">No data available</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    <div>
+        <nav>
+          <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+              </li>
+            {% endif %}
+
+            <li class="page-item active">
+              <span class="page-link">{{ page_obj.number }}</span>
+            </li>
+
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+    </div>
+
+    <a href="{% url 'upload' %}" class="btn btn-secondary mt-4">← Back to Upload</a>
+    <a href="{% url 'validation' %}" class="btn btn-info mt-4">📊 View Validation Dashboard</a>
+</body>
+</html>
